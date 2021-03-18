@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+
+import memoList from '@/components/MemoList'
+import memoCreate from '@/components/MemoCreate'
 
 Vue.use(Router)
 
@@ -8,8 +10,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      component: memoList
+    },
+    {
+      path: '/memoCreate',
+      component: memoCreate
     }
   ]
 })
