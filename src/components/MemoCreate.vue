@@ -1,10 +1,10 @@
 <template>
-  <deiv>
+  <div>
     <p>
       メモクリエイトのページ
     </p>
     <router-link to="/">Go to page1</router-link>
-  </deiv>
+  </div>
 </template>
 
 <script>
