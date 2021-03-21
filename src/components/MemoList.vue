@@ -9,7 +9,7 @@
       </ul>
     </div>
     <div class="memodetails" v-if="create">
-        <component :is="currentView" @send='register' v-bind:memo="memolists[index]"></component>
+        <component :is="currentView" @send='register' @remove='remove(index)' v-bind:memo="memolists[index]"></component>
     </div>
   </div>
 </template>
