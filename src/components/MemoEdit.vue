@@ -1,8 +1,6 @@
 <template>
 <div>
-  メモ詳細画面
-  <p>id: {{ memodetails($route.params.memoId).id }}</p>
-  <p>title: {{ memodetails($route.params.memoId)["title"] }}</p>
+  <p>title: {{ memodetails($route.params.memoId).title }}</p>
   <p>content: {{ memodetails($route.params.memoId).content }}</p>
 </div>
 </template>

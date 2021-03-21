@@ -1,30 +1,39 @@
 <template>
-  <div class="main">
+  <div class="memo">
     <div class="memolist">
       <ul>
         <li v-for="(memolist, index) in memolists" v-bind:key="index">
-          <router-link :to="{ path: `/memo/${memolist.id}`}">{{ memolist.title }}</router-link>
+          <button class="link-style-btn">{{ memolist.title }}</button>
         </li>
+        <li><button class="link-style-btn">+</button></li>
       </ul>
-      <button @click="change()">+</button>
     </div>
     <div class="memodetails" v-if="create">
-      <input type="text" v-model="newTitle" placeholder="タイトル"><br>
-      <textarea name="" id="" v-model="newContent" cols="30" rows="10" placeholder="本文"></textarea><br>
-        <button @click="register()">新規登録</button>
-        <button @click="remove(index)">削除</button>
+        <!-- <button @click="remove(index)">削除</button> -->
+        <Create @create='register'/>
+        <Edit/>
     </div>
   </div>
 </template>
 
 <script>
+import Create from '@/components/MemoCreate'
+import Edit from '@/components/MemoEdit'
+
 export default {
+  components: {
+    Create,
+    Edit
+  },
   data () {
     return {
       memolists: [],
-      newTitle: null,
-      newContent: null,
-      create: false
+      create: true
+    }
+  },
+  computed: {
+    newmemolists: function () {
+      return this.memolists
     }
   },
   mounted () {
@@ -44,12 +53,9 @@ export default {
         this.create = false
       }
     },
-    register () {
-      if (!this.newTitle || !this.newContent) {
-        return
-      }
+    register (newTitle, newContent) {
       let lastMemo = this.memolists.slice(-1)[0]
-      const newMemo = { id: null, title: this.newTitle, content: this.newContent }
+      const newMemo = { id: null, title: newTitle, content: newContent }
       if (this.memolists.length === 0) {
         newMemo.id = 1
       } else {
@@ -57,8 +63,6 @@ export default {
         newMemo.id = id
       }
       this.memolists.push(newMemo)
-      this.newTitle = ''
-      this.newContent = ''
       this.save()
     },
     remove (index) {
@@ -68,13 +72,16 @@ export default {
     save () {
       const parsed = JSON.stringify(this.memolists)
       localStorage.setItem('memolists', parsed)
+    },
+    test (newTitle, newContent) {
+      console.log(newTitle, newContent)
     }
   }
 }
 </script>
 
 <style scoped>
-.main {
+.memo {
   display: flex;
   flex-flow: center;
 }
@@ -91,13 +98,20 @@ div {
 .memodetails {
   width: 50%;
 }
-input {
-  margin: 4px;
-}
-textarea {
-  margin: 4px;
-}
 button {
   margin: 4px;
+}
+ul {
+  list-style: none;
+}
+button.link-style-btn{
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #0033cc;
+}
+button.link-style-btn:hover{
+  text-decoration: underline;
+  color: #002080;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>MemoApp</h1>
+    <h1><router-link :to="{ path: '/memo' }">MemoApp</router-link></h1>
     <router-view/>
   </div>
 </template>
