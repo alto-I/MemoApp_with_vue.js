@@ -1,31 +1,33 @@
 <template>
-<div>
-  <p>title: {{ memodetails($route.params.memoId).title }}</p>
-  <p>content: {{ memodetails($route.params.memoId).content }}</p>
-</div>
+  <div>
+    <input type="text" v-model="memo.title" placeholder="タイトル"><br>
+    <textarea name="" id="" v-model="memo.content" cols="30" rows="10" placeholder="本文"></textarea><br>
+    <button @click="sendToData">編集</button>
+    <!-- <button @click="remove(index)">削除</button> -->
+  </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      memolists: []
+  props: {
+    memo: {
+      type: Object
     }
   },
-  created () {
-    if (localStorage.getItem('memolists')) {
-      try {
-        this.memolists = JSON.parse(localStorage.getItem('memolists'))
-      } catch (e) {
-        localStorage.removeItem('memolists')
-      }
+  data () {
+    return {
+      newTitle: null,
+      newContent: null
     }
   },
   methods: {
-    memodetails (id) {
-      return this.memolists.find((memo) => {
-        return memo.id === parseInt(id)
-      })
+    sendToData () {
+      if (!this.newTitle || !this.newContent) {
+        return
+      }
+      this.$emit('send', this.newTitle, this.newContent)
+      this.newTitle = ''
+      this.newContent = ''
     }
   }
 }

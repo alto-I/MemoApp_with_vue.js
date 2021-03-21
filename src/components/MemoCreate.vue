@@ -19,7 +19,7 @@ export default{
       if (!this.newTitle || !this.newContent) {
         return
       }
-      this.$emit('create', this.newTitle, this.newContent)
+      this.$emit('send', this.newTitle, this.newContent)
       this.newTitle = ''
       this.newContent = ''
     }

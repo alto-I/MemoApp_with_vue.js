@@ -2,16 +2,14 @@
   <div class="memo">
     <div class="memolist">
       <ul>
-        <li v-for="(memolist, index) in memolists" v-bind:key="index">
-          <button class="link-style-btn">{{ memolist.title }}</button>
+        <li v-for="(memolist, i) in memolists" v-bind:key="i">
+          <button class="link-style-btn" @click='changeToEdit(i)'>{{ memolist.title }}</button>
         </li>
-        <li><button class="link-style-btn">+</button></li>
+        <li><button class="link-style-btn" @click='changeToCreate'>+</button></li>
       </ul>
     </div>
     <div class="memodetails" v-if="create">
-        <!-- <button @click="remove(index)">削除</button> -->
-        <Create @create='register'/>
-        <Edit/>
+        <component :is="currentView" @send='register' v-bind:memo="memolists[index]"></component>
     </div>
   </div>
 </template>
@@ -28,12 +26,9 @@ export default {
   data () {
     return {
       memolists: [],
+      index: null,
+      currentView: 'Create',
       create: true
-    }
-  },
-  computed: {
-    newmemolists: function () {
-      return this.memolists
     }
   },
   mounted () {
@@ -73,8 +68,12 @@ export default {
       const parsed = JSON.stringify(this.memolists)
       localStorage.setItem('memolists', parsed)
     },
-    test (newTitle, newContent) {
-      console.log(newTitle, newContent)
+    changeToCreate () {
+      this.currentView = 'Create'
+    },
+    changeToEdit (index) {
+      this.index = index
+      this.currentView = 'Edit'
     }
   }
 }
