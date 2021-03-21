@@ -19,6 +19,7 @@
         @edit="edit"
         @remove="remove(index)"
         v-bind:memo="memos[index]"
+        v-bind:index="index"
       ></component>
     </div>
   </div>
@@ -72,8 +73,8 @@ export default {
       if (!editTitle || !editContent) {
         return alert('タイトルと本文を入力してください')
       }
-      const editMemo = { id: index, title: editTitle, content: editContent }
-      this.memos.splice(index - 1, 1, editMemo)
+      this.memos[index].title = editTitle
+      this.memos[index].content = editContent
       this.save()
       setTimeout(() => {
         return alert('保存完了')

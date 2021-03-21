@@ -17,6 +17,9 @@ export default {
   props: {
     memo: {
       type: Object
+    },
+    index: {
+      type: Number
     }
   },
   data () {
@@ -27,12 +30,12 @@ export default {
   },
   methods: {
     sendToData () {
-      this.$emit('edit', this.memo.id, this.memo.title, this.memo.content)
+      this.$emit('edit', this.index, this.memo.title, this.memo.content)
       this.newTitle = ''
       this.newContent = ''
     },
     remove () {
-      this.$emit('remove', this.memo.id)
+      this.$emit('remove', this.index)
     }
   }
 }
