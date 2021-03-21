@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1><router-link :to="{ path: '/memo' }">MemoApp</router-link></h1>
-    <router-view/>
+    <h1>MemoApp</h1>
+    <router-view />
   </div>
 </template>
 
@@ -11,8 +11,19 @@ export default {
 }
 </script>
 
-<style scoped>
-#app {
-  border: solid 1px black;
+<style>
+input {
+  width: 90%;
+  margin: 4px;
+}
+textarea {
+  width: 90%;
+  margin: 4px;
+}
+ul {
+  list-style: none;
+}
+button {
+  margin: 4px;
 }
 </style>
