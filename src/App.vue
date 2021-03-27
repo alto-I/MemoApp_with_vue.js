@@ -1,13 +1,18 @@
 <template>
   <div id="app">
     <h1>MemoApp</h1>
-    <router-view />
+    <Memo />
   </div>
 </template>
 
 <script>
+import Memo from '@/components/Memo'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Memo
+  }
 }
 </script>
 
