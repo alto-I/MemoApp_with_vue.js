@@ -1,8 +1,8 @@
 <template>
   <div class="memo">
-    <div class="memolist">
+    <div class="memo-list">
       <ul>
-        <li v-for="(memo, i) in memos" v-bind:key="i">
+        <li v-for="(memo, i) in memos" :key="i">
           <button class="link-style-btn" @click="changeToEdit(i)">
             {{ memo.title }}
           </button>
@@ -12,14 +12,14 @@
         </li>
       </ul>
     </div>
-    <div class="memodetails">
+    <div class="memo-details">
       <component
         :is="currentView"
-        @create="register"
+        @create="create"
         @edit="edit"
         @remove="remove(index)"
-        v-bind:memo="memos[index]"
-        v-bind:index="index"
+        :memo="memos[index]"
+        :index="index"
       ></component>
     </div>
   </div>
@@ -51,10 +51,7 @@ export default {
     }
   },
   methods: {
-    register (newTitle, newContent) {
-      if (!newTitle || !newContent) {
-        return alert('タイトルと本文を入力してください')
-      }
+    create (newTitle, newContent) {
       let lastMemo = this.memos.slice(-1)[0]
       const newMemo = { id: null, title: newTitle, content: newContent }
       if (this.memos.length === 0) {
@@ -62,33 +59,28 @@ export default {
       } else {
         newMemo.id = lastMemo.id + 1
       }
-      this.memos.push(newMemo)
-      this.save()
-      this.changeToHome()
-      setTimeout(() => {
-        return alert('保存完了')
-      }, 100)
+      this.save(newMemo.id, newMemo)
     },
-    edit (index, editTitle, editContent) {
-      if (!editTitle || !editContent) {
-        return alert('タイトルと本文を入力してください')
-      }
-      this.memos[index].title = editTitle
-      this.memos[index].content = editContent
-      this.save()
-      setTimeout(() => {
-        return alert('保存完了')
-      }, 100)
+    edit (index, editMemo) {
+      this.save(index, editMemo)
     },
     remove (index) {
       this.memos.splice(index, 1)
-      this.save()
+      this.saveToLocalStarage()
       this.changeToHome()
-      setTimeout(() => {
-        return alert('削除完了')
-      }, 100)
+      alert('削除完了')
     },
-    save () {
+    save (index, saveMemo) {
+      if (!saveMemo.title || !saveMemo.content) {
+        return alert('タイトルと本文を入力してください')
+      } else {
+        this.memos.splice(index, 1, saveMemo)
+        this.saveToLocalStarage()
+        this.changeToHome()
+        return alert('保存完了')
+      }
+    },
+    saveToLocalStarage () {
       const parsed = JSON.stringify(this.memos)
       localStorage.setItem('memos', parsed)
     },
@@ -111,10 +103,10 @@ export default {
   display: flex;
   flex-flow: center;
 }
-.memolist {
+.memo-list {
   width: 50%;
 }
-.memodetails {
+.memo-details {
   width: 50%;
 }
 button.link-style-btn {

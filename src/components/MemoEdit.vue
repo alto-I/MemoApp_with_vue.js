@@ -30,7 +30,8 @@ export default {
   },
   methods: {
     sendToData () {
-      this.$emit('edit', this.index, this.memo.title, this.memo.content)
+      const editMemo = { id: this.memo.id, title: this.memo.title, content: this.memo.content }
+      this.$emit('edit', this.index, editMemo)
       this.newTitle = ''
       this.newContent = ''
     },
