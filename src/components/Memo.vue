@@ -13,26 +13,29 @@
       </ul>
     </div>
     <div class="memo-details">
-      <component
-        :is="currentView"
-        @create="create"
-        @edit="edit"
-        @remove="remove(index)"
-        :memo="memos[index]"
-        :index="index"
-      ></component>
+      <template v-if="currentView === 'MemoCreate'">
+        <MemoCreate @create="create" />
+      </template>
+      <template v-if="currentView === 'MemoEdit'">
+        <MemoEdit
+          @edit="edit($event.index, $event.editMemo)"
+          @remove="remove($event)"
+          :memo="memos[index]"
+          :index="index"
+        ></MemoEdit>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
-import Create from '@/components/MemoCreate'
-import Edit from '@/components/MemoEdit'
+import MemoCreate from '@/components/MemoCreate'
+import MemoEdit from '@/components/MemoEdit'
 
 export default {
   components: {
-    Create,
-    Edit
+    MemoCreate,
+    MemoEdit
   },
   data () {
     return {
@@ -50,16 +53,18 @@ export default {
       }
     }
   },
+  computed: {
+    newMemoid: function () {
+      let lastMemo = this.memos.slice(-1)[0]
+      const id = this.memos.length === 0 ? 1 : lastMemo.id + 1
+      return id
+    }
+  },
   methods: {
     create (newTitle, newContent) {
-      let lastMemo = this.memos.slice(-1)[0]
-      const newMemo = { id: null, title: newTitle, content: newContent }
-      if (this.memos.length === 0) {
-        newMemo.id = 1
-      } else {
-        newMemo.id = lastMemo.id + 1
-      }
+      const newMemo = { id: this.newMemoid, title: newTitle, content: newContent }
       this.save(newMemo.id, newMemo)
+      this.changeToHome()
     },
     edit (index, editMemo) {
       this.save(index, editMemo)
@@ -76,7 +81,6 @@ export default {
       } else {
         this.memos.splice(index, 1, saveMemo)
         this.saveToLocalStarage()
-        this.changeToHome()
         return alert('保存完了')
       }
     },
@@ -85,11 +89,11 @@ export default {
       localStorage.setItem('memos', parsed)
     },
     changeToCreate () {
-      this.currentView = 'Create'
+      this.currentView = 'MemoCreate'
     },
     changeToEdit (index) {
       this.index = index
-      this.currentView = 'Edit'
+      this.currentView = 'MemoEdit'
     },
     changeToHome () {
       this.currentView = ''
