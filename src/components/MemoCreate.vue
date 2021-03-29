@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     sendToData () {
-      this.$emit('create', this.newTitle, this.newContent)
+      this.$emit('create', {newTitle: this.newTitle, newContent: this.newContent})
       this.newTitle = ''
       this.newContent = ''
     }
