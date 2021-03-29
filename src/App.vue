@@ -1,23 +1,34 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <h1>MemoApp</h1>
+    <Memo />
   </div>
 </template>
 
 <script>
+import Memo from '@/components/Memo'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Memo
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+input {
+  width: 90%;
+  margin: 4px;
+}
+textarea {
+  width: 90%;
+  margin: 4px;
+}
+ul {
+  list-style: none;
+}
+button {
+  margin: 4px;
 }
 </style>
