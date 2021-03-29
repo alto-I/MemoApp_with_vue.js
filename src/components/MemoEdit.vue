@@ -31,9 +31,7 @@ export default {
   methods: {
     sendToData () {
       const editMemo = { id: this.memo.id, title: this.memo.title, content: this.memo.content }
-      this.$emit('edit', this.index, editMemo)
-      this.newTitle = ''
-      this.newContent = ''
+      this.$emit('edit', {index: this.index, editMemo: editMemo})
     },
     remove () {
       this.$emit('remove', this.index)
