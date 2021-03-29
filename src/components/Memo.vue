@@ -14,7 +14,7 @@
     </div>
     <div class="memo-details">
       <template v-if="currentView === 'MemoCreate'">
-        <MemoCreate @create="create" />
+        <MemoCreate @create="create($event.newTitle, $event.newContent)" />
       </template>
       <template v-if="currentView === 'MemoEdit'">
         <MemoEdit
